@@ -3,6 +3,10 @@ Lexicon-LMS är min sista webbapplikation.
 LMS förenklar och centraliserar kommunikationen mellan lärare, lärosäte och elev genom att samla schema, 
 kursmaterial, övrig information, övningsuppgifter och inlämningar på ett och samma ställe.
 
+Kolla gärna på YouTube video där förklarar jag projektet.
+
+https://youtu.be/RK4XZ5DiXxA
+
 1. En icke inloggad besökare kan:
 ● Logga in
 
