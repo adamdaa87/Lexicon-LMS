@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ModuleViewModel>
+
+@foreach (var item in Model)
+{
+    <div class="row">
+        <div class="col-sm-10">
+            <a asp-action="GetTeacherActivityAjax" asp-route-id="@item.Id"
+           data-ajax="true"
+           data-ajax-method="GET"
+           data-ajax-update="div#cont-modules-and-activities"
+           data-ajax-mode="replace-with">
+                @if (item.IsCurrentModule)
+                {
+                    <div type="button" class="btn btn-success btn-succs btn-module">
+                        @item.Name
+                    </div>
+                }
+                else
+                {
+                    <div type="button" class="btn btn-dark btn-black btn-module">
+                        @item.Name
+                    </div>
+                }
+            </a>
+        </div>
+        <div class="col-sm-2 align-self-center">
+            <a asp-controller="Modules" asp-action="Details" asp-route-id="@item.Id">
+                <img id="info-module-icon" class="icon-img" src="~/info_black.svg" />
+            </a>
+        </div>
+    </div>
+    @if (User.IsInRole("Teacher"))
+    {
+        <div class="row row-module-btn-icons">
+            <div class="col-sm-10">
+                <a onclick="showPopup('@Url.Action($"Edit","Modules", new {id=item.Id},Context.Request.Scheme)','Edit Module')" @*asp-route-id="@item.Id"*@>
+                    <img class="icon-img" src="~/edit.svg" />
+                </a>
+                <a onclick="showPop('@Url.Action($"Delete","Modules", new {id=item.Id},Context.Request.Scheme)','Delete Module')">
+                    <img class="icon-img" src="~/delete.svg" />
+                </a>
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+    }
+}

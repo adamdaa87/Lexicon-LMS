@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Course>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="container mt-4">  
+    <h1>Courses</h1>
+
+<p>
+    <a class="btn btn-success" asp-action="Create">Add New Course</a>
+</p>
+<table class="table table-striped" >
+    <thead class="table-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+               <a asp-action="CourseInfo" asp-controller="Courses" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.CourseName)</a> 
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a  class="btn btn-success"asp-action="Details"   asp-route-id="@item.Id"> Details</a> |
+                <a class="btn btn-success"asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+ </div>

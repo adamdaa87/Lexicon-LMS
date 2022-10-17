@@ -1,0 +1,75 @@
+﻿@model IEnumerable<AssignmentListViewModel>
+
+<h1 class="text-center">Assignments</h1>
+<table class="table table-striped">
+    <thead class="table-dark">
+        <tr class="w-100">
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateEndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Finished)
+            </th>
+            <th>
+
+            </th>
+            <th>
+                <b>Uploaded Documents</b>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModuleName)
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateEndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Finished)
+                </td>
+                <td>
+                    @if (User.IsInRole("Student"))
+                    {
+
+                        <form enctype="multipart/form-data" asp-controller="Courses" asp-action="FileUpload" method="post">
+                            <input type="hidden" asp-for="@item.CourseId" />
+                            <input type="hidden" asp-for="@item.ModuleId" />
+                            <input type="hidden" asp-for="@item.ActivityId" />
+                            <div class="form-group">
+                                <input asp-for="@item.UploadedFile" type="file" />
+                            </div>
+                            <div class="form-group">
+                                <input class="btn btn-primary" type="submit" value="Upload" />
+                            </div>
+                        </form>
+                    }
+                </td>
+                <td>
+                    @foreach (var document in item.Documents)
+                    {
+
+                        @* <a href="">@document.DocumentName</a>*@
+                        @*                        <a asp-controller="User" asp-action="DownloadFile" asp-route-filepath="@document.FilePath">@document.DocumentName</a>*@
+                        <a href="@($"\\{@document.FilePath}")" download>@document.DocumentName</a>
+
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

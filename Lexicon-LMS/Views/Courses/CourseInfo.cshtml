@@ -1,0 +1,29 @@
+﻿@model TeacherViewModel
+
+@{
+    ViewData["Title"] = "CourseInfo";
+}
+
+<div class="container cont-section">
+    <partial name="WelcomeCourse" model="@Model.Current" />
+</div>
+
+<div id="placeHolderHere"></div>
+
+      <!-- Activities-->
+@if (Model.ModulesActivity != null)
+{
+    <partial name="ModuleAndActivityPartial" model="@Model" />
+}
+else
+{
+    <h2 style="margin: 5px 25px 20px 0px">Activities<a asp-controller="Activities" asp-action="Create"> <img style="margin: 0px 0px 5px 5px" id="btn-create" src="/icons/create.svg" alt="Alternate Text" /></a></h2>
+}
+
+<!-- Assignments-->
+
+<div class="container cont-section">
+    <partial name="AssignmentPartial" model="@Model.AssignmentList"/>
+</div>
+
+

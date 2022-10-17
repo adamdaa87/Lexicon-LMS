@@ -1,0 +1,24 @@
+﻿@model CurrentViewModel
+<div class="row mt-3">
+<div class="col-4">
+            <img src="~/business_information_technology_uk_5.webp" style="width:400px ; height:200px" alt="workshop" />
+        </div>
+
+
+
+        <div class="col-8">
+            <h2>
+              @Model.course.CourseName
+            </h2>
+
+             <hr />
+            <p>
+                 @Model.course.Description
+                 <h6>Duration</h6>
+                 <h6>Start</h6>
+                 @Model.course.StartDate
+                 <h6>End</h6>
+                 @Model.course.EndDate             
+            </p>
+        </div>
+</div>
