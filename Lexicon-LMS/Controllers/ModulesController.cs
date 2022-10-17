@@ -52,8 +52,6 @@ namespace Lexicon_LMS.Controllers
         }
 
         // GET: Modules/Create
-        //[Authorize(Roles = "Teacher")]
-
         public IActionResult Create(int? id)
         {
             if (id is null || !CourseExists((int)id))

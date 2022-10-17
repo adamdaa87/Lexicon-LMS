@@ -55,11 +55,7 @@ namespace Lexicon_LMS.Controllers
                     Id = x.Id,
                     ActivityName = x.ActivityName,
                     StartDate = x.StartDate,
-                   // EndDate = x.EndDate,
                     ActivityTypeActivityTypeName = x.ActivityType.ActivityTypeName,
-                    //ModuleId = x.Module.Id,
-
-                    //ModulName = x.Module.ModulName
 
                 }).ToList();
 
@@ -94,9 +90,8 @@ namespace Lexicon_LMS.Controllers
         [Authorize(Roles = "Teacher")]
         public IActionResult Create(int id)
         {
-            //ModuleId = id;
+
             ViewData["ActivityTypeId"] = new SelectList(_context.Set<ActivityType>(), "Id", "ActivityTypeName");
-            //ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Id");
             Core.Entities.Activity Ac = new Core.Entities.Activity()
             {
                 ModuleId = id,
@@ -126,8 +121,6 @@ namespace Lexicon_LMS.Controllers
 
                 return RedirectToAction("CourseInfo", "Courses", new { id = Module.CourseId.ToString() });
             }
-            //ViewData["ActivityTypeId"] = new SelectList(_context.Set<ActivityType>(), "Id", "ActivityTypeName", activity.ActivityTypeId);
-            //ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Id", activity.ModuleId);
             return View(activity);
         }
 

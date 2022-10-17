@@ -1,22 +1,14 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Bogus.DataSets;
 using Lexicon_LMS.Core.Entities;
 using Lexicon_LMS.Core.Entities.ViewModel;
 using Lexicon_LMS.Data;
-using Lexicon_LMS.Extensions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Hosting.Internal;
-using System.Reflection.Metadata;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Lexicon_LMS.Controllers
 {
@@ -41,18 +33,6 @@ namespace Lexicon_LMS.Controllers
         public async Task<ActionResult> WelcomePage()
         {
             var userId = _userManager.GetUserId(User);
-
-            //var user = await _context.Users.Select(u => new StudentCourseViewModel
-            //{
-            //    Id = u.Id,
-            //    CourseName = u.Course.CourseName,
-            //    CourseDescription = u.Course.Description,
-            //    Documents = u.Documents
-            //    //Add more....
-            //})
-            //.FirstOrDefaultAsync(u => u.Id == userId);// _context.Users.Find(_userManager.GetUserId(User));
-
-            //var viewModel = mapper.ProjectTo<StudentCourseViewModel>(_context.Users).FirstOrDefault(u => u.Id == userId);
             var viewModel =  _mapper.Map<StudentCourseViewModel>(_context.Users.Include(u => u.Course).FirstOrDefault(u => u.Id == userId));
             
             return View(viewModel);
@@ -87,8 +67,6 @@ namespace Lexicon_LMS.Controllers
         
             return View(await viewModel.ToListAsync());
         }
-
- 
 
         // GET: UserController/Details/5
         public ActionResult Details(int id)
@@ -214,22 +192,7 @@ namespace Lexicon_LMS.Controllers
 
             }).Where(s => s.CourseId != null);
         }
-        //public async Task<IActionResult> WelcomeCourse(int? id)
-        //{
 
-        //    var user = await _context.Course.Select(u => new StudentCourseViewModel
-        //    {
-        //        Id = u.Id,
-        //        CourseName = u.Course.CourseName,
-        //        CourseDescription = u.Course.Description,
-        //        Documents = u.Documents
-        //        //Add more....
-        //    })
-        //    .FirstOrDefaultAsync(u => u.Id == userId);// _context.Users.Find(_userManager.GetUserId(User));
-        //}
-        //}
-        //return View(viewModel);
-        //  }
         public async Task<IActionResult> TeacherHome()
             {
             var logedinUser = _context.Users.Find(_userManager.GetUserId(User));
@@ -249,22 +212,14 @@ namespace Lexicon_LMS.Controllers
                     Id = x.Id,
                     ActivityName = x.ActivityName,
                     StartDate = x.StartDate,
-                    //EndDate = x.EndDate,
                     ActivityTypeActivityTypeName = x.ActivityType.ActivityTypeName,
-                    //UploadedFile = (IFormFile)x.Documents
-
-                    //ModuleId = x.Module.Id,
-
-                    //ModulName = x.Module.ModulName
+ 
 
                 }).ToList();
 
                 return View(activities);
 
-                //TempData["CourseId"] = id;
-
-            }      return View(viewModel);
-
+            }   return View(viewModel);
 
         }
       
@@ -273,28 +228,17 @@ namespace Lexicon_LMS.Controllers
         {
 
             var fullPath = await UploadFile(viewModel);
-            //var DocumentFile = viewModel.UploadedFile;
-            //var DocumentPath = Path.GetFileName("Upload");
-
 
             var document = new Core.Entities.Document()
             {
                 DocumentName = viewModel.UploadedFile.FileName,
                 FilePath = fullPath,
                 ActivityId = viewModel.Id
-                // CourseId = viewModel.CourseId
             };
 
-
-            //add
-            //savechangeews
             _context.Add(document);
             await _context.SaveChangesAsync();
-            //var documentPath = $"~/Upload/";
-            //document.FilePath = documentPath;
-            //var path = Path.Combine(webHostEnvironment.WebRootPath, documentPath);
             TempData["msg"] = "File uploaded successfully";
-            //return LocalRedirect("~/User/WelcomePage");
             return RedirectToAction("CourseInfo","Courses", new {id = viewModel.CourseId });
         }
 
@@ -306,10 +250,7 @@ namespace Lexicon_LMS.Controllers
 
 
             var PathToFile = Path.Combine(courseName, moduleName, activityName);
-            //viewModel.CourseId.ToString(),
-            //viewModel.ModuleId.ToString(),
-            //viewModel.Id.ToString());
-            // var pathToFile = $"~/upload/{Path.Combine(viewModel.Name, "~/Upload")}/{(viewModel.ModuleModulName, "~/Upload")}/{(viewModel.ActivityName, "~/Upload")}";
+            
             var path = Path.Combine(_webHostEnvironment.WebRootPath, PathToFile);
 
 

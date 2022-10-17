@@ -6,12 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 
 var builder = WebApplication.CreateBuilder(args);
-//builder.Services.AddDbContext<Lexicon_LMSContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("Lexicon_LMSContext") ?? throw new InvalidOperationException("Connection string 'Lexicon_LMSContext' not found.")));
 builder.Services.AddAutoMapper(typeof(MapperProfile));
 
-// Add services to the container.
-//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<Lexicon_LMSContext>(options =>
       options.UseSqlServer(builder.Configuration.GetConnectionString("Lexicon_LMSContext") ?? throw new InvalidOperationException("Connection string 'Lexicon_LMSContext' not found.")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -25,7 +21,6 @@ options.SignIn.RequireConfirmedAccount = true
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 app.SeedDataAsync().GetAwaiter().GetResult();

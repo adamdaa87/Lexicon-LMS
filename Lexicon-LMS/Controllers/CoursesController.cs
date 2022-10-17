@@ -100,7 +100,6 @@ namespace Lexicon_LMS.Controllers
         // POST: Courses/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[Authorize(Roles = "Teacher")]
         [HttpPost]
         [Authorize(Roles = "Teacher")]
         [ValidateAntiForgeryToken]
@@ -163,8 +162,6 @@ namespace Lexicon_LMS.Controllers
             {
                 return Problem("Entity set 'Lexicon_LMSContext.Course'  is null.");
             }
-
-            //var course = await _context.Course.FindAsync(id);
 
             var course = await _context.Course
                 .Include(u=> u.Users)
@@ -361,7 +358,6 @@ namespace Lexicon_LMS.Controllers
                         IsCurrentModule = false
 
                     })
-                   //.FirstOrDefaultAsync(m => m.Id == id);
                    .ToListAsync();
 
                 SetCurrentModule(modules, (int)id);
@@ -385,31 +381,18 @@ namespace Lexicon_LMS.Controllers
         {
 
             var fullPath = await UploadFile(viewModel);
-            //var DocumentFile = viewModel.UploadedFile;
-            //var DocumentPath = Path.GetFileName("Upload");
-
-
             var document = new Core.Entities.Document()
             {
                 DocumentName = viewModel.UploadedFile.FileName,
                 FilePath = fullPath,
                 ActivityId = viewModel.ActivityId
-                // CourseId = viewModel.CourseId
             };
 
-
-            //add
-            //savechangeews
             _context.Add(document);
             await _context.SaveChangesAsync();
-            //var documentPath = $"~/Upload/";
-            //document.FilePath = documentPath;
-            //var path = Path.Combine(webHostEnvironment.WebRootPath, documentPath);
+
             TempData["msg"] = "File uploaded successfully";
             return LocalRedirect("~/User/WelcomePage");
-            //return RedirectToAction(
-            //   "~/Courses/CourseInfo",
-            //   new { id = viewModel.Id });
 
         }
         public async Task<string> UploadFile([Bind(Prefix = "item")] AssignmentListViewModel viewModel)
@@ -420,10 +403,6 @@ namespace Lexicon_LMS.Controllers
 
 
             var PathToFile = Path.Combine(courseName, moduleName, activityName);
-            //viewModel.CourseId.ToString(),
-            //viewModel.ModuleId.ToString(),
-            //viewModel.Id.ToString());
-            // var pathToFile = $"~/upload/{Path.Combine(viewModel.Name, "~/Upload")}/{(viewModel.ModuleModulName, "~/Upload")}/{(viewModel.ActivityName, "~/Upload")}";
             var path = Path.Combine(_webHostEnvironment.WebRootPath, PathToFile);
 
 
